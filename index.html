@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin:0;
+        padding: 0;
+    }
+    .body{
+        width:100%;
+        height:100vh;
+        /* margin:0;
+        padding: 0; */
+        background: url('img.jpg');
+        background-size: 100% 100%;
+    }
+    .container{
+        position: relative;
+        background: rgb(255, 255, 255, .5);
+        border-radius: 30px;
+        width:60vw;
+        padding:10px;
+        margin:auto;
+        top:15vh;
+        padding: 50px;
+    }
+    form{
+        display: grid;
+        grid-template-columns:auto auto;
+        grid-template-rows:auto auto auto ;
+    }
+    .group{
+display:flex;
+padding: 0 30px;
+align-items: center;
+justify-content: space-between;
+        height:10vh;
+        margin-top: 2vh;
+}
+label{
+    font-size: 1.3em;
+    font-family:Arial, Helvetica, sans-serif;
+    color:rgb(51, 51, 51);
+}
+select{
+    width:30%;
+    height:6vh;
+    padding:15px;
+    border-radius: 10px; 
+    outline:none;
+    border:none;
+    box-shadow:2px 2px 3px grey;
+    border:2px solid rgb(32, 66, 66);
+}
+/* option{
+    padding: 5px;
+} */
+input,textarea{
+    width:50%;
+    padding:15px; 
+    border-radius: 10px; 
+    outline:none;
+    border:none;
+    border:2px solid rgb(32, 66, 66);
+    background: white;
+}
+.data{
+    width:30vw;
+    padding:15px; 
+    border-radius: 10px; 
+    border:2px solid rgb(32, 66, 66);
+    background: white;
+}
+.outputs, .output{
+    border-radius:20px;
+    margin: auto;
+    border:2px solid rgb(32, 66, 66);
+    background-color: rgb(233, 232, 232);
+    padding:20px;
+    color:rgb(51, 51, 51);
+    font-size: 1.2em;
+    margin-top:10px;
+}
+.outputs{
+    display: grid;
+    background-color: rgb(187, 184, 184);
+    grid-template-columns:auto auto;
+    grid-template-rows:auto auto auto; 
+    justify-content: space-evenly;
+    align-items: center;
+}
+    h1{
+        font-weight: bolder;
+        font-size: 3.5em;
+        font-family:'Courier New', Courier, monospace;
+        color:rgb(32, 66, 66);
+    }
+    button{
+        padding:10px 30px; 
+    border-radius: 10px; 
+    outline:none;
+    border:none;
+    font-size: 1.2em;
+    color:white;
+    background:rgb(32, 66, 66);
+    }
+</style>
+<body>
+<div class="body">
+  <div class="container">
+    <h1>Login</h1>
+      <form id="form1" name="form1">
+        <div class="group">
+            <label for="zero">Your Name:</label>
+            <input type="email" name="zero">
+        </div>
+          <div class="group">
+              <label for="one">Email adress:</label>
+              <input type="email" name="one">
+          </div>
+          <div class="group">
+              <label for="two">Your Country:</label>
+              <input type="text" pattern="[A-Za-z]{3}" name="two">
+          </div>
+          <div class="group">
+<label for="three">Date of Birth:</label>
+<input type="date" name="three" id="">
+          </div>
+          <div class="group">
+              <label for="four">Description:</label>
+              <textarea name="four" id="four" cols="30" rows="3"></textarea>
+          </div>
+          <div class="group">
+          <button type="button" onclick="sendPosts()">Submit</button>
+        </div>
+      </form>
+  </div>
+</div>
+<div class="outputsss"></div>
+<script>
+    
+    function sendPosts()
+            {
+var form=$('#form1').serialize();
+// console.log(form)
+$.ajax({
+    url:"https://httpbin.org/post",
+    method:"POST",
+    data:form,
+    // datatype: "JSON",
+success:function(data, status){
+    var new_data=JSON.stringify(data)
+    $('.outputsss').append(`<div class="output">${new_data}</div>`)
+    $('.outputsss').append(`<div class="outputs">
+    <h1>Form Data</h1>
+    <div class ="data">Your Name:` +data['form']['zero']+`</div>
+    <div class ="data">Email address:`+data['form']['one']+`</div>
+    <div class ="data">Your Country:`+ data['form']['two']+`</div>
+    <div class ="data">Data of Birth:`+ data['form']['three']+`</div>
+    <div class ="data">Discription:`+ data['form']['four']+`</div>
+    </div>`)
+}
+})
+            }
+</script>
+</body>
+</html>
